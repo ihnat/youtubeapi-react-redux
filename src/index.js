@@ -13,20 +13,31 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { videos: []};
+    this.state = {
+      videos: [],
+      selectedVideo: null
+    };
 
     YTSearch({key: API_KEY, term: 'surfboards'}, (videos) => {
-      this.setState({videos});
-    })
+      this.setState({
+        videos: videos,
+        selectedVideo: videos[0]
+      });
+    });
 
 
   }
+  alertMessage(text) {
+    alert(text);
+  }
+
   render() {
     return (
       <div>
         <SearchBar/>
-        <VideoDetail video={this.state.videos[0]}/>
-        <VideoList videos={this.state.videos}/>
+        <VideoDetail video={this.state.selectedVideo}/>
+        <div onClick={() => this.alertMessage('button div')}>button</div>
+        <VideoList onVideoSelect={(selectedVideo) => this.setState({selectedVideo})} videos={this.state.videos}/>
       </div>
     )
   }
